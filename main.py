@@ -41,14 +41,30 @@ def cal_hash(input_string):
     return hex(_7032f5 + _cc1055)[2:].lower()
 
 
-def get_wr_skey():
-    """刷新cookie密钥"""
-    response = requests.post(RENEW_URL, headers=headers, cookies=cookies,
-                             data=json.dumps(COOKIE_DATA, separators=(',', ':')))
-    for cookie in response.headers.get('Set-Cookie', '').split(';'):
-        if "wr_skey" in cookie:
-            return cookie.split('=')[-1][:8]
-    return None
+def get_wr_skey(retry_count=0):
+    """刷新cookie密钥，添加重试机制"""
+    try:
+        response = requests.post(
+            RENEW_URL, 
+            headers=headers, 
+            cookies=cookies,
+            data=json.dumps(COOKIE_DATA, separators=(',', ':')),
+            timeout=10
+        )
+        for cookie in response.headers.get('Set-Cookie', '').split(';'):
+            if "wr_skey" in cookie:
+                return cookie.split('=')[-1][:8]
+        
+        if retry_count < MAX_RETRIES:
+            logger.warning(f"获取wr_skey失败，{retry_count + 1}秒后重试...")
+            time.sleep(retry_count + 1)
+            return get_wr_skey(retry_count + 1)
+        return None
+    except requests.exceptions.RequestException as e:
+        logger.error(f"网络请求异常: {e}")
+        if retry_count < MAX_RETRIES:
+            return get_wr_skey(retry_count + 1)
+        return None
 
 
 index = 1
