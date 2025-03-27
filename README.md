@@ -1,7 +1,3 @@
-*推一个机场可以走我的优惠码【88888888】相当于50多一年，trySmall可用*<br>
-`AFF`*【科学上网】机场地址--->[R星云](https://web.rstar.cloud/)<---机场地址【科学上网】*`AFF` <br>
-*觉得这个项目对你有帮助恰巧你需要节点的话可以看一下*
-
 
 
 ## 项目介绍 📚
@@ -30,7 +26,7 @@
 ```
 右键复制为Bash格式。
 
-### 方法一： GitHub Action部署运行（GitHub运行）
+### GitHub Action部署运行
 
 
 - Fork这个仓库，在仓库 **Settings** -> 左侧列表中的 **Secrets and variables** -> **Actions**，然后在右侧的 **Repository secrets** 中添加如下值：
@@ -59,19 +55,6 @@
 
 [![视频教程](https://github.com/user-attachments/assets/ec144869-3dbb-40fe-9bc5-f8bf1b5fce3c)](https://www.bilibili.com/video/BV1kJ6gY3En3/ "点击查看视频")
 
-
-### 方法二： 服务器运行（docker部署）
-
-- 在你的服务器上有Python运行环境即可，使用`cron`定义自动运行。
-- 或者通过docker运行，将抓到的bash命令在 [Convert](https://curlconverter.com/python/) 转化为Python字典格式，复制需要的headers与cookies即可（data不需要）。
-
-steps1：克隆这个项目：`git clone https://github.com/findmover/wxread.git`<br>
-steps2：配置config.py里的headers、cookies、READ_NUM、PUSH_METHOD以及对应推送方式token<br>
-steps3：进入目录使用镜像构建容器：
-`docker rm -f wxread && docker build -t wxread . && docker run -d --name wxread -v $(pwd)/logs:/app/logs --restart always wxread`<br>
-steps4：测试：`docker exec -it wxread python /app/main.py`
-
-***
 ## Attention 📢
 
 1. **签到次数调整**：只需签到完成挑战赛可以将`num`次数从120调整为2，每次`num`为30秒，200即100分钟。
