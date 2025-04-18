@@ -67,10 +67,16 @@ def refresh_cookie():
         push(ERROR_CODE, PUSH_METHOD)
         raise Exception(ERROR_CODE)
 
+# 添加随机等待时间
+wait_time = random.randint(1, 300)
+logging.info(f"⏰ 随机等待 {wait_time} 秒后开始阅读...")
+time.sleep(wait_time)
+
 refresh_cookie()
 index = 1
 lastTime = int(time.time()) - 30
-while index <= READ_NUM:
+target_num = READ_NUM + random.randint(1, 30)
+while index <= target_num:
     data.pop('s')
     data['b'] = random.choice(book)
     data['c'] = random.choice(chapter)
