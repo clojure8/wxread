@@ -103,11 +103,12 @@ while index <= target_num:
 
     if 'succ' in resData:
         if 'synckey' in resData:
-            lastTime = thisTime
+            logging.info(f"✅ 阅读成功，阅读进度：{random_read_interval if index == 1 else thisTime - lastTime} 秒")
+
             index += 1
+            lastTime = thisTime
             random_read_interval = random_delay(1,30)
             time.sleep(random_read_interval)
-            logging.info(f"✅ 阅读成功，阅读进度：{random_read_interval if index == 1 else thisTime - lastTime} 秒")
         else:
             logging.warning("❌ 无synckey, 尝试修复...")
             fix_no_synckey()
