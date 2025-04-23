@@ -67,15 +67,22 @@ def refresh_cookie():
         push(ERROR_CODE, PUSH_METHOD)
         raise Exception(ERROR_CODE)
 
+def random_delay(min_wait=30, max_wait=60):
+    """随机等待时间"""
+    wait_time = random.randint(min_wait, max_wait)
+    return wait_time
+
 # 添加随机等待时间
-wait_time = random.randint(1, 300)
-logging.info(f"⏰ 随机等待 {wait_time} 秒后开始阅读...")
+wait_time = random_delay(30, 300)
 time.sleep(wait_time)
 
 refresh_cookie()
+
+random_read_interval = random_delay()
+lastTime = int(time.time()) - random_read_interval
+
+target_num = READ_NUM + random.randint(1, 300)
 index = 1
-lastTime = int(time.time()) - 30
-target_num = READ_NUM + random.randint(1, 30)
 while index <= target_num:
     data.pop('s')
     data['b'] = random.choice(book)
@@ -98,7 +105,7 @@ while index <= target_num:
         if 'synckey' in resData:
             lastTime = thisTime
             index += 1
-            time.sleep(30)
+            time.sleep(random_read_interval)
             logging.info(f"✅ 阅读成功，阅读进度：{(index - 1) * 0.5} 分钟")
         else:
             logging.warning("❌ 无synckey, 尝试修复...")
