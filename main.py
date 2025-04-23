@@ -121,4 +121,5 @@ logging.info("🎉 阅读脚本已完成！")
 
 if PUSH_METHOD not in (None, ''):
     logging.info("⏱️ 开始推送...")
-    push(f"🎉 微信读书自动阅读完成！\n⏱️ 阅读时长：{random_read_interval if index == 1 else thisTime - lastTime} 秒。", PUSH_METHOD)
+    thisTime = int(time.time())
+    push(f"🎉 微信读书自动阅读完成！\n⏱️ 阅读时长：{(thisTime - lastTime) // 60} 分钟。", PUSH_METHOD)
