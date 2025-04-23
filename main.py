@@ -78,10 +78,10 @@ time.sleep(wait_time)
 
 refresh_cookie()
 
-random_read_interval = random_delay()
-lastTime = int(time.time()) - random_read_interval
+random_read_interval = random_delay(1,30)
+lastTime = int(time.time())
 
-target_num = READ_NUM + random.randint(1, 300)
+target_num = READ_NUM + random.randint(1, 30)
 index = 1
 while index <= target_num:
     data.pop('s')
@@ -89,7 +89,7 @@ while index <= target_num:
     data['c'] = random.choice(chapter)
     thisTime = int(time.time())
     data['ct'] = thisTime
-    data['rt'] = thisTime - lastTime
+    data['rt'] = random_read_interval if index == 1 else thisTime - lastTime
     data['ts'] = int(thisTime * 1000) + random.randint(0, 1000)
     data['rn'] = random.randint(0, 1000)
     data['sg'] = hashlib.sha256(f"{data['ts']}{data['rn']}{KEY}".encode()).hexdigest()
@@ -105,8 +105,9 @@ while index <= target_num:
         if 'synckey' in resData:
             lastTime = thisTime
             index += 1
+            random_read_interval = random_delay(1,30)
             time.sleep(random_read_interval)
-            logging.info(f"✅ 阅读成功，阅读进度：{(index - 1) * 0.5} 分钟")
+            logging.info(f"✅ 阅读成功，阅读进度：{random_read_interval if index == 1 else thisTime - lastTime} 秒")
         else:
             logging.warning("❌ 无synckey, 尝试修复...")
             fix_no_synckey()
@@ -118,4 +119,4 @@ logging.info("🎉 阅读脚本已完成！")
 
 if PUSH_METHOD not in (None, ''):
     logging.info("⏱️ 开始推送...")
-    push(f"🎉 微信读书自动阅读完成！\n⏱️ 阅读时长：{(index - 1) * 0.5}分钟。", PUSH_METHOD)
+    push(f"🎉 微信读书自动阅读完成！\n⏱️ 阅读时长：{random_read_interval if index == 1 else thisTime - lastTime} 秒。", PUSH_METHOD)
