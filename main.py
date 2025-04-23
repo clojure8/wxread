@@ -74,8 +74,8 @@ def random_delay(min_wait=30, max_wait=60):
 
 # 添加随机等待时间
 wait_time = random_delay(30, 300)
-time.sleep(wait_time)
 logging.info(f"⏱️ 开始运行，等待 {wait_time} 秒后开始。")
+time.sleep(wait_time)
 
 refresh_cookie()
 
