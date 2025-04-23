@@ -75,10 +75,11 @@ def random_delay(min_wait=30, max_wait=60):
 # 添加随机等待时间
 wait_time = random_delay(30, 300)
 time.sleep(wait_time)
+logging.info(f"⏱️ 开始运行，等待 {wait_time} 秒后开始。")
 
 refresh_cookie()
 
-random_read_interval = random_delay(1,30)
+random_read_interval = random_delay()
 lastTime = int(time.time())
 
 target_num = READ_NUM + random.randint(1, 30)
@@ -107,7 +108,7 @@ while index <= target_num:
 
             index += 1
             lastTime = thisTime
-            random_read_interval = random_delay(1,30)
+            random_read_interval = random_delay()
             time.sleep(random_read_interval)
         else:
             logging.warning("❌ 无synckey, 尝试修复...")
