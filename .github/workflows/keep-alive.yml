@@ -2,8 +2,8 @@ name: Keep Alive
 
 on:
   schedule:
-    # 每月1号北京时间 08:00（UTC 前一天 00:00）执行一次
-    - cron: '0 0 1 * *'
+    # 每两周执行一次：北京时间每月1号和15号 08:00（UTC 前一天 00:00）
+    - cron: '0 0 1,15 * *'
   workflow_dispatch:
 
 jobs:
