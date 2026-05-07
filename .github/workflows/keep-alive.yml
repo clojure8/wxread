@@ -1,0 +1,25 @@
+name: Keep Alive
+
+on:
+  schedule:
+    # 每月1号北京时间 08:00（UTC 前一天 00:00）执行一次
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Keep repo alive
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        # 更新时间戳文件，产生一次提交以保持仓库活跃
+        echo "Last keep-alive: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" > .keep-alive
+        git add .keep-alive
+        git commit -m "chore: keep-alive $(date -u '+%Y-%m-%d')" || echo "No changes to commit"
+        git push
